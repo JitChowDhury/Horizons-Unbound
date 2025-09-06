@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game():window(sf::VideoMode(800, 600), "Horizons Unbound")
+Game::Game():window(sf::VideoMode(800, 600), "Horizons Unbound"),deltaTime(0.f)
 {
 	window.setFramerateLimit(60);
 
@@ -12,6 +12,8 @@ Game::Game():window(sf::VideoMode(800, 600), "Horizons Unbound")
 
 void Game::Update()
 {
+    deltaTime = clock.restart().asSeconds();
+    player.Update(deltaTime);
 }
 
 void Game::HandleEvent()
@@ -26,7 +28,7 @@ void Game::HandleEvent()
 void Game::Render()
 {
     window.clear(sf::Color::Black);
-
+    player.Draw(window);
     window.display();
 }
 
