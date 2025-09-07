@@ -3,7 +3,7 @@
 Game::Game():window(sf::VideoMode(800, 600), "Horizons Unbound"),deltaTime(0.f)
 {
 	window.setFramerateLimit(60);
-
+    
     sf::Image icon;
     if (icon.loadFromFile("assets/textures/logo.png")) {
         window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());

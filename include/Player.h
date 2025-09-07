@@ -11,6 +11,11 @@ private:
 	sf::Vector2f position;
 	sf::Vector2f velocity;
 
+	float speed;
+	float jumpForce;
+	float gravity;
+	bool isGrounded;
+
 public:
 	Player();
 	void Update(float deltaTime);
