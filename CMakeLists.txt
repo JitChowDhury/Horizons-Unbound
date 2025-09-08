@@ -18,11 +18,11 @@ FetchContent_Declare(SFML
 )
 FetchContent_MakeAvailable(SFML)
 
-# ✅ Collect sources
+# Collect sources
 file(GLOB SRC_FILES src/*.cpp)
 file(GLOB HEADER_FILES include/*.h)
 
-# ✅ Define the executable (use your project name here)
+#  Define the executable (use your project name here)
 add_executable(HorizonsUnbound ${SRC_FILES} ${HEADER_FILES})
 
 # Include and C++ standard

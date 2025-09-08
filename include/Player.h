@@ -1,4 +1,7 @@
+#pragma once
 #include <SFML/Graphics.hpp>
+#include "Ground.h"
+
 
 class Player
 {
@@ -15,6 +18,8 @@ private:
 	float jumpForce;
 	float gravity;
 	bool isGrounded;
+
+	Ground ground;
 
 public:
 	Player();
