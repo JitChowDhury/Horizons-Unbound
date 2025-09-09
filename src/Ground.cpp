@@ -29,13 +29,13 @@ void Ground::Update(float deltaTime, float scrollSpeed)
 
     float width = groundSprite1.getGlobalBounds().width;
 
-    // If sprite1 goes completely off-screen (to the left)
+    
     if (groundSprite1.getPosition().x + width / 2.f < 0)
     {
         groundSprite1.setPosition(groundSprite2.getPosition().x + width, groundSprite1.getPosition().y);
     }
 
-    // If sprite2 goes completely off-screen
+  
     if (groundSprite2.getPosition().x + width / 2.f < 0)
     {
         groundSprite2.setPosition(groundSprite1.getPosition().x + width, groundSprite2.getPosition().y);

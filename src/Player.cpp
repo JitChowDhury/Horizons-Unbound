@@ -2,7 +2,8 @@
 #include "Player.h"
 
 
-Player::Player():position(sf::Vector2f(400,300)),velocity(sf::Vector2f(0.f,0.f)), speed(200.f), jumpForce(400.0f), gravity(1000.0f),isGrounded(true)
+Player::Player():position(sf::Vector2f(400,300)),velocity(sf::Vector2f(0.f,0.f)), speed(200.f), jumpForce(400.0f)
+, gravity(1000.0f),isGrounded(true),animation(sprite,0.15f)
 {
 	if (!texture.loadFromFile("assets/textures/player.png"))
 	{
@@ -10,22 +11,26 @@ Player::Player():position(sf::Vector2f(400,300)),velocity(sf::Vector2f(0.f,0.f))
 	}
 	sprite.setTexture(texture);
 
-	int frameIndex = 0;
+	
 	int frameWidth = 51;
 	int frameHeight = 45;
-
-	sprite.setTextureRect(sf::IntRect(frameIndex * frameWidth, 0, frameWidth, frameHeight));
 	sprite.setScale(2.f, 2.f);
-	float groundTop = ground.spritePosition()+12.f;
+	float groundTop = ground.spritePosition() + 12.f;
 	float playerHeight = sprite.getGlobalBounds().height;
-	sprite.setPosition(400-sprite.getGlobalBounds().width/2, groundTop - playerHeight);
+	sprite.setPosition(400 - sprite.getGlobalBounds().width / 2, groundTop - playerHeight);
+	for (int i = 0; i < 8; i++)
+	{
+		animation.AddFrame(sf::IntRect(i * frameWidth, 0, frameWidth, frameHeight));
+	}
+	
+
 	
 
 }
 
 void Player::Update(float deltaTime)
 {
-
+	animation.Update(deltaTime);
 	velocity.x = 0;
 	if (!isGrounded)
 	{

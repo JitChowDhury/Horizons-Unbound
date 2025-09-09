@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Ground.h"
+#include "Animation.h"
 
 
 class Player
@@ -10,6 +11,7 @@ private:
 	sf::Sprite sprite;
 	sf::Texture texture;
 
+	Animation animation;
 
 	sf::Vector2f position;
 	sf::Vector2f velocity;
