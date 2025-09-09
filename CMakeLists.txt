@@ -38,6 +38,9 @@ if(WIN32)
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         $<TARGET_FILE_DIR:sfml-graphics> $<TARGET_FILE_DIR:HorizonsUnbound>
     )
+
+    set(APP_ICON_RESOURCE "${CMAKE_CURRENT_SOURCE_DIR}/resources.rc")
+    target_sources(HorizonsUnbound PRIVATE ${APP_ICON_RESOURCE})
 endif()
 
 # Compiler warnings
