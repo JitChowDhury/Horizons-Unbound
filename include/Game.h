@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <vector>
 #include "Player.h"
 #include "Ground.h"
@@ -10,6 +11,8 @@ class Game
 private:
 	sf::RenderWindow window;
 	sf::Clock clock;
+
+	sf::Music mainMusic;
 
 	float deltaTime;
 	float baseScrollSpeed;

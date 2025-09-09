@@ -16,7 +16,9 @@ Player::Player():position(sf::Vector2f(400,300)),velocity(sf::Vector2f(0.f,0.f))
 
 	sprite.setTextureRect(sf::IntRect(frameIndex * frameWidth, 0, frameWidth, frameHeight));
 	sprite.setScale(2.f, 2.f);
-	sprite.setPosition(position);
+	float groundTop = ground.spritePosition()+12.f;
+	float playerHeight = sprite.getGlobalBounds().height;
+	sprite.setPosition(400-sprite.getGlobalBounds().width/2, groundTop - playerHeight);
 	
 
 }

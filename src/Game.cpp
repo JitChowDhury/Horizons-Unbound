@@ -26,12 +26,23 @@ Game::Game() : window(sf::VideoMode(800, 600), "Horizons Unbound"), deltaTime(0.
 
     sf::ContextSettings settings = window.getSettings();
 
+    if (!mainMusic.openFromFile("assets/sounds/mainMusic.mp3"))
+    {
+        std::cerr << "No Music Found" << std::endl;
+    }
+
+    mainMusic.setVolume(50.f);
+    mainMusic.setLoop(true);
+    mainMusic.play();
+
+
 }
 
 void Game::Update()
 {
     deltaTime = clock.restart().asSeconds();
     player.Update(deltaTime);
+    ground.Update(deltaTime, baseScrollSpeed);
     for (auto& bg : backgrounds) {
         bg.Update(deltaTime, baseScrollSpeed);
     }
