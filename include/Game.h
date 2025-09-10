@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Ground.h"
 #include "Background.h"
+#include "Coin.h"
 
 class Game
 {
@@ -19,6 +20,7 @@ private:
 	std::vector<Background> backgrounds;
 	Player player;
 	Ground ground;
+	Coin coin;
 public:
 	Game();
 	void Update();

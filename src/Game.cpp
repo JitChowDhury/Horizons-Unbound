@@ -1,7 +1,7 @@
 #include "Game.h"
 #include <iostream>
 
-Game::Game() : window(sf::VideoMode(800, 600), "Horizons Unbound"), deltaTime(0.f), baseScrollSpeed(200.f)
+Game::Game() : window(sf::VideoMode(800, 600), "Horizons Unbound"), deltaTime(0.f), baseScrollSpeed(200.f),coin(player)
 {
     backgrounds.reserve(10);
     window.setFramerateLimit(60);
@@ -42,6 +42,7 @@ void Game::Update()
 {
     deltaTime = clock.restart().asSeconds();
     player.Update(deltaTime);
+    coin.Update(deltaTime,baseScrollSpeed);
     ground.Update(deltaTime, baseScrollSpeed);
     for (auto& bg : backgrounds) {
         bg.Update(deltaTime, baseScrollSpeed);
@@ -67,6 +68,7 @@ void Game::Render()
 
     player.Draw(window);
     ground.Draw(window);
+    coin.Draw(window);
     window.display();
 }
 

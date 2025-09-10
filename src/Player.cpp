@@ -3,7 +3,7 @@
 
 
 Player::Player():position(sf::Vector2f(400,300)),velocity(sf::Vector2f(0.f,0.f)), speed(200.f), jumpForce(400.0f)
-, gravity(1000.0f),isGrounded(true),animation(sprite,0.15f)
+, gravity(1000.0f),isGrounded(true),animation(sprite,0.1f)
 {
 	if (!texture.loadFromFile("assets/textures/player.png"))
 	{
@@ -59,3 +59,10 @@ void Player::Draw(sf::RenderWindow& window)
 {
 	window.draw(sprite);
 }
+
+sf::FloatRect Player::GetGlobalBounds() const
+{
+	return sprite.getGlobalBounds();
+}
+
+
