@@ -59,7 +59,31 @@ void Game::Update()
 
     for (auto it = coins.begin(); it != coins.end(); )
     {
+        sf::FloatRect playerBounds = player.GetGlobalBounds();
+        sf::Vector2f playerCenter(
+            playerBounds.left + playerBounds.width / 2.f,
+            playerBounds.top + playerBounds.height / 2.f
+        );
+
+
+
         (*it)->Update(deltaTime, baseScrollSpeed);
+        sf::FloatRect coinBounds = (*it)->GetBounds();
+        sf::Vector2f coinCenter(
+            coinBounds.left + coinBounds.width / 2.f,
+            coinBounds.top + coinBounds.height / 2.f
+        );
+
+        float dx = playerCenter.x - coinCenter.x;
+        float dy = playerCenter.y - coinCenter.y;
+        float distance = std::sqrt(dx * dx + dy * dy);
+
+        float pickupRadius = 30.f;
+        if (distance < pickupRadius)
+        {
+            it = coins.erase(it);
+        }
+
         if ((*it)->IsOffscreen()) {
             it = coins.erase(it);
         }
