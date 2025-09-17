@@ -20,7 +20,11 @@ private:
 	std::vector<Background> backgrounds;
 	Player player;
 	Ground ground;
-	Coin coin;
+
+
+	std::vector<std::unique_ptr<Coin>> coins;
+	sf::Clock coinSpawnClock;
+	float coinSpawnInterval = 2.f; 
 public:
 	Game();
 	void Update();

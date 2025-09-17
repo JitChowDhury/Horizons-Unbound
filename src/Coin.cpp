@@ -1,29 +1,32 @@
 #include "Coin.h"
 
+sf::Texture Coin::texture;
 
-Coin::Coin(const Player& player):animation(sprite,0.15f),isCollected(false)
+Coin::Coin(sf::Vector2f spawnPos):animation(sprite,0.15f),isCollected(false)
 {
 
-	if (texture.loadFromFile("assets/textures/coin.png"))
+	if (texture.getSize().x == 0)  
 	{
-
+		if (!texture.loadFromFile("assets/textures/coin.png"))
+		{
+			throw std::runtime_error("Failed to load coin texture!");
+		}
 	}
 	sprite.setTexture(texture);
-	sprite.setPosition(
-		player.GetGlobalBounds().left + player.GetGlobalBounds().width / 2.f - sprite.getGlobalBounds().width / 2.f,
-		player.GetGlobalBounds().top - sprite.getGlobalBounds().height - 10.f
-	);
 	sprite.setTextureRect(sf::IntRect(0, 0, 16, 16));
 	for (int i = 0; i < 5; i++)
 	{
 		animation.AddFrame(sf::IntRect(i * 16, 0, 16, 16));
 	}
 
+	sprite.setPosition(spawnPos);
+
 }
 
 void Coin::Update(float deltaTime, float scrollSpeed)
 {
 	animation.Update(deltaTime);
+	sprite.move(-scrollSpeed * deltaTime, 0);
 }
 
 void Coin::Draw(sf::RenderWindow& window)
@@ -33,5 +36,11 @@ void Coin::Draw(sf::RenderWindow& window)
 
 sf::FloatRect Coin::GetBounds()
 {
-	return sf::FloatRect();
+	return sprite.getGlobalBounds();
+}
+
+
+bool Coin::IsOffscreen()
+{
+	return (sprite.getPosition().x + sprite.getGlobalBounds().width < 0);
 }

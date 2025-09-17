@@ -1,7 +1,7 @@
 #include "Game.h"
 #include <iostream>
 
-Game::Game() : window(sf::VideoMode(800, 600), "Horizons Unbound"), deltaTime(0.f), baseScrollSpeed(200.f),coin(player)
+Game::Game() : window(sf::VideoMode(800, 600), "Horizons Unbound"), deltaTime(0.f), baseScrollSpeed(200.f)
 {
     backgrounds.reserve(10);
     window.setFramerateLimit(60);
@@ -42,10 +42,30 @@ void Game::Update()
 {
     deltaTime = clock.restart().asSeconds();
     player.Update(deltaTime);
-    coin.Update(deltaTime,baseScrollSpeed);
     ground.Update(deltaTime, baseScrollSpeed);
     for (auto& bg : backgrounds) {
         bg.Update(deltaTime, baseScrollSpeed);
+    }
+    if (coinSpawnClock.getElapsedTime().asSeconds() > coinSpawnInterval)
+    {
+        coinSpawnClock.restart();
+
+        float groundY = ground.spritePosition();
+        float x = 800 + (std::rand() % 200); // random ahead of screen
+        float y = groundY - (40 + std::rand() % 70); // random above ground
+
+        coins.emplace_back(std::make_unique<Coin>(sf::Vector2f(x, y)));
+    }
+
+    for (auto it = coins.begin(); it != coins.end(); )
+    {
+        (*it)->Update(deltaTime, baseScrollSpeed);
+        if ((*it)->IsOffscreen()) {
+            it = coins.erase(it);
+        }
+        else {
+            ++it;
+        }
     }
 }
 
@@ -68,7 +88,9 @@ void Game::Render()
 
     player.Draw(window);
     ground.Draw(window);
-    coin.Draw(window);
+    for (auto& c : coins) {
+        c->Draw(window);
+    }
     window.display();
 }
 
