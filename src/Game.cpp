@@ -63,10 +63,16 @@ void Game::Update()
         coinSpawnClock.restart();
 
         float groundY = ground.spritePosition();
-        float x = 800 + (std::rand() % 200); // random ahead of screen
-        float y = groundY - (30 + std::rand() % 60); // random above ground
+        float baseX = 800 + (std::rand() % 200);
+        float y = groundY - (30); // random above ground
 
-        coins.emplace_back(std::make_unique<Coin>(sf::Vector2f(x, y)));
+        int groupSize = 1 + (std::rand() % 5);
+
+
+        for (int i = 0; i < groupSize; i++)
+        {
+            coins.push_back(std::make_unique<Coin>(sf::Vector2f(baseX + i * 40.f, y)));
+        }
     }
 
     for (auto it = coins.begin(); it != coins.end(); )
