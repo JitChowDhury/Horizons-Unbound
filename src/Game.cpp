@@ -12,7 +12,7 @@ Game::Game() : window(sf::VideoMode(800, 600), "Horizons Unbound"), deltaTime(0.
         window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     }
 
-    if (!font.loadFromFile("assets/fonts/VT323-Regular.ttf"))
+    if (!font.loadFromFile("assets/fonts/bubbleBobble.ttf"))
     {
         std::cerr << "Font not Found!" << std::endl;
     }
