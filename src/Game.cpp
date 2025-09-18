@@ -1,7 +1,7 @@
 #include "Game.h"
 #include <iostream>
 
-Game::Game() : window(sf::VideoMode(800, 600), "Horizons Unbound"), deltaTime(0.f), baseScrollSpeed(200.f)
+Game::Game() : window(sf::VideoMode(800, 600), "Horizons Unbound"), deltaTime(0.f), baseScrollSpeed(200.f),score(0)
 {
     backgrounds.reserve(10);
     window.setFramerateLimit(60);
@@ -11,6 +11,18 @@ Game::Game() : window(sf::VideoMode(800, 600), "Horizons Unbound"), deltaTime(0.
     {
         window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     }
+
+    if (!font.loadFromFile("assets/fonts/VT323-Regular.ttf"))
+    {
+        std::cerr << "Font not Found!" << std::endl;
+    }
+
+    scoreText.setFont(font);
+    scoreText.setCharacterSize(24);
+    scoreText.setFillColor(sf::Color::White);
+    scoreText.setPosition(10.f, 10.f); 
+    scoreText.setColor(sf::Color::Black);
+    scoreText.setString("Score: 0");
 
     backgrounds.emplace_back("assets/textures/backgrounds/1.png", 0.2f);
     backgrounds.emplace_back("assets/textures/backgrounds/2.png", 0.4f);
@@ -52,7 +64,7 @@ void Game::Update()
 
         float groundY = ground.spritePosition();
         float x = 800 + (std::rand() % 200); // random ahead of screen
-        float y = groundY - (40 + std::rand() % 70); // random above ground
+        float y = groundY - (30 + std::rand() % 60); // random above ground
 
         coins.emplace_back(std::make_unique<Coin>(sf::Vector2f(x, y)));
     }
@@ -81,6 +93,9 @@ void Game::Update()
         float pickupRadius = 30.f;
         if (distance < pickupRadius)
         {
+
+            score += 5;
+            scoreText.setString("Score: " + std::to_string(score));
             it = coins.erase(it);
         }
 
@@ -115,6 +130,7 @@ void Game::Render()
     for (auto& c : coins) {
         c->Draw(window);
     }
+    window.draw(scoreText);
     window.display();
 }
 

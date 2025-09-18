@@ -14,9 +14,12 @@ private:
 	sf::Clock clock;
 
 	sf::Music mainMusic;
+	sf::Text scoreText;
+	sf::Font font;
 
 	float deltaTime;
 	float baseScrollSpeed;
+	int score;
 	std::vector<Background> backgrounds;
 	Player player;
 	Ground ground;
