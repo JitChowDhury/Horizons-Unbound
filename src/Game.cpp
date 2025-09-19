@@ -169,9 +169,9 @@ void Game::Update()
     }
 
     for (auto& obs : obstacles) {
-        if (player.GetGlobalBounds().intersects(obs->GetBounds())) {
+        if (player.GetCollisionBounds().intersects(obs->GetBounds())) {
             std::cout << "Game Over!" << std::endl;
-            window.close(); // or set a gameOver flag instead of closing directly
+            window.close(); 
         }
     }
 }
@@ -194,14 +194,15 @@ void Game::Render()
     }
 
     player.Draw(window);
+    for (auto& obs : obstacles) {
+        obs->Draw(window);
+    }
     ground.Draw(window);
     for (auto& c : coins) {
         c->Draw(window);
     }
 
-    for (auto& obs : obstacles) {
-        obs->Draw(window);
-    }
+  
     window.draw(scoreText);
     window.display();
 }

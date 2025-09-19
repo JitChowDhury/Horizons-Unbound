@@ -28,4 +28,5 @@ public:
 	void Update(float deltaTime);
 	void Draw(sf::RenderWindow& window);
 	sf::FloatRect GetGlobalBounds() const;
+	sf::FloatRect GetCollisionBounds() const;
 };
