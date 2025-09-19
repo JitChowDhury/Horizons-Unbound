@@ -33,6 +33,7 @@ Game::Game() : window(sf::VideoMode(800, 600), "Horizons Unbound"), deltaTime(0.
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 
 
+
     scoreText.setFont(font);
     scoreText.setCharacterSize(24);
     scoreText.setFillColor(sf::Color::White);
@@ -128,6 +129,50 @@ void Game::Update()
         else {
             ++it;
         }
+
+    }
+
+
+    if (obstacleSpawnClock.getElapsedTime().asSeconds() > obstacleSpawnInterval)
+    {
+        obstacleSpawnClock.restart();
+
+        float groundY = ground.spritePosition();
+        float x = 800 + (std::rand() % 200);
+        float y = groundY; // sits on ground
+
+        sf::FloatRect newObstacleRect(x, y, 400.f, 285.f);
+
+
+        // Check overlap with coins
+        bool overlapsCoin = false;
+        for (auto& coin : coins) {
+            if (coin->GetBounds().intersects(newObstacleRect)) {
+                overlapsCoin = true;
+                break;
+            }
+        }
+
+        if (!overlapsCoin) {
+            obstacles.push_back(std::make_unique<Obstacle>(sf::Vector2f(x, y)));
+        }
+    }
+    for (auto it = obstacles.begin(); it != obstacles.end(); )
+    {
+        (*it)->Update(deltaTime, baseScrollSpeed);
+        if ((*it)->IsOffscreen()) {
+            it = obstacles.erase(it);
+        }
+        else {
+            ++it;
+        }
+    }
+
+    for (auto& obs : obstacles) {
+        if (player.GetGlobalBounds().intersects(obs->GetBounds())) {
+            std::cout << "Game Over!" << std::endl;
+            window.close(); // or set a gameOver flag instead of closing directly
+        }
     }
 }
 
@@ -152,6 +197,10 @@ void Game::Render()
     ground.Draw(window);
     for (auto& c : coins) {
         c->Draw(window);
+    }
+
+    for (auto& obs : obstacles) {
+        obs->Draw(window);
     }
     window.draw(scoreText);
     window.display();
