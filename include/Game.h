@@ -17,6 +17,9 @@ private:
 	sf::Text scoreText;
 	sf::Font font;
 
+	sf::SoundBuffer coinSoundBuffer;
+	sf::Sound coinSound;
+
 	float deltaTime;
 	float baseScrollSpeed;
 	int score;
@@ -28,6 +31,9 @@ private:
 	std::vector<std::unique_ptr<Coin>> coins;
 	sf::Clock coinSpawnClock;
 	float coinSpawnInterval = 2.f; 
+
+
+	void PlayCoinSound();
 public:
 	Game();
 	void Update();

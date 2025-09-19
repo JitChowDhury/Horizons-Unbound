@@ -1,6 +1,14 @@
 #include "Game.h"
 #include <iostream>
 
+void Game::PlayCoinSound()
+{
+    float pitch = 0.8f + static_cast<float>(std::rand()) / RAND_MAX * 0.4f;
+    coinSound.setPitch(pitch);
+
+    coinSound.play();
+}
+
 Game::Game() : window(sf::VideoMode(800, 600), "Horizons Unbound"), deltaTime(0.f), baseScrollSpeed(200.f),score(0)
 {
     backgrounds.reserve(10);
@@ -16,6 +24,14 @@ Game::Game() : window(sf::VideoMode(800, 600), "Horizons Unbound"), deltaTime(0.
     {
         std::cerr << "Font not Found!" << std::endl;
     }
+
+    if (!coinSoundBuffer.loadFromFile("assets/sounds/coin.mp3"))
+    {
+        std::cerr << "Sound not Found!" << std::endl;
+    }
+    coinSound.setBuffer(coinSoundBuffer);
+    std::srand(static_cast<unsigned>(std::time(nullptr)));
+
 
     scoreText.setFont(font);
     scoreText.setCharacterSize(24);
@@ -101,6 +117,7 @@ void Game::Update()
         {
 
             score += 5;
+            PlayCoinSound();
             scoreText.setString("Score: " + std::to_string(score));
             it = coins.erase(it);
         }
