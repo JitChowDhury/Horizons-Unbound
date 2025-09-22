@@ -11,5 +11,6 @@ public:
 	Ground();
 	void Update(float deltaTime, float scrollSpeed);
 	void Draw(sf::RenderWindow& window);
-	float spritePosition();
+	float spritePosition();  
+	void Reset();
 };

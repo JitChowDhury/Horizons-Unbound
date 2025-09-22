@@ -9,7 +9,7 @@ void Game::PlayCoinSound()
     coinSound.play();
 }
 
-Game::Game() : window(sf::VideoMode(800, 600), "Horizons Unbound"), deltaTime(0.f), baseScrollSpeed(200.f),score(0)
+Game::Game() : window(sf::VideoMode(800, 600), "Horizons Unbound"), deltaTime(0.f), baseScrollSpeed(200.f),score(0), gameState(GameState::Playing)
 {
     backgrounds.reserve(10);
     window.setFramerateLimit(60);
@@ -37,9 +37,14 @@ Game::Game() : window(sf::VideoMode(800, 600), "Horizons Unbound"), deltaTime(0.
     scoreText.setFont(font);
     scoreText.setCharacterSize(24);
     scoreText.setFillColor(sf::Color::White);
-    scoreText.setPosition(10.f, 10.f); 
-    scoreText.setColor(sf::Color::Black);
+    scoreText.setPosition(10.f, 10.f);
     scoreText.setString("Score: 0");
+
+    gameOverText.setFont(font);
+    gameOverText.setCharacterSize(40);
+    gameOverText.setFillColor(sf::Color::Red);
+    gameOverText.setString("GAME OVER!\nPress R to Restart\nPress Esc to Quit");
+    gameOverText.setPosition(200.f, 200.f);
 
     backgrounds.emplace_back("assets/textures/backgrounds/1.png", 0.2f);
     backgrounds.emplace_back("assets/textures/backgrounds/2.png", 0.4f);
@@ -69,6 +74,9 @@ Game::Game() : window(sf::VideoMode(800, 600), "Horizons Unbound"), deltaTime(0.
 
 void Game::Update()
 {
+    if (gameState == GameState::GameOver) return;
+
+
     deltaTime = clock.restart().asSeconds();
     player.Update(deltaTime);
     ground.Update(deltaTime, baseScrollSpeed);
@@ -170,8 +178,7 @@ void Game::Update()
 
     for (auto& obs : obstacles) {
         if (player.GetCollisionBounds().intersects(obs->GetBounds())) {
-            std::cout << "Game Over!" << std::endl;
-            window.close(); 
+            gameState = GameState::GameOver;
         }
     }
 }
@@ -183,29 +190,45 @@ void Game::HandleEvent()
     {
         if (event.type == sf::Event::Closed)
             window.close();
+
+        if (gameState == GameState::GameOver && event.type == sf::Event::KeyPressed)
+        {
+            if (event.key.code == sf::Keyboard::R)
+                Restart();
+            else if (event.key.code == sf::Keyboard::Escape)
+                window.close();
+        }
     }
 }
+
 
 void Game::Render()
 {
     window.clear(sf::Color(0, 0, 0, 0));
-    for (auto it = backgrounds.begin(); it != backgrounds.end(); ++it) {
-        it->Draw(window);
+
+    for (auto& bg : backgrounds)
+        bg.Draw(window);
+
+    if (gameState == GameState::Playing)
+    {
+        player.Draw(window);
+        for (auto& obs : obstacles)
+            obs->Draw(window);
+        ground.Draw(window);
+        for (auto& c : coins)
+            c->Draw(window);
+
+        window.draw(scoreText);
+    }
+    else if (gameState == GameState::GameOver)
+    {
+        window.draw(gameOverText);
+        window.draw(scoreText); 
     }
 
-    player.Draw(window);
-    for (auto& obs : obstacles) {
-        obs->Draw(window);
-    }
-    ground.Draw(window);
-    for (auto& c : coins) {
-        c->Draw(window);
-    }
-
-  
-    window.draw(scoreText);
     window.display();
 }
+
 
 void Game::Run()
 {
@@ -216,4 +239,20 @@ void Game::Run()
         HandleEvent();
         Render();
     }
+}
+void Game::Restart()
+{
+    score = 0;
+    scoreText.setString("Score: 0");
+
+    coins.clear();
+    obstacles.clear();
+
+    coinSpawnClock.restart();
+    obstacleSpawnClock.restart();
+
+    player.Reset();
+    ground.Reset();
+
+    gameState = GameState::Playing;
 }

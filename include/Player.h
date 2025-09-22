@@ -29,4 +29,5 @@ public:
 	void Draw(sf::RenderWindow& window);
 	sf::FloatRect GetGlobalBounds() const;
 	sf::FloatRect GetCollisionBounds() const;
+	void Reset();
 };

@@ -14,4 +14,5 @@ public:
 	Animation(sf::Sprite& targetSprite, float frameDuration = 0.1f);
 	void AddFrame(const sf::IntRect& frame);
 	void Update(float deltaTime);
+	void Reset();
 };

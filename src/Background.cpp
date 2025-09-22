@@ -13,7 +13,6 @@ Background::Background(const std::string& textureFile, float scrollSpeed):scroll
     sprite2.setTexture(texture);
 
 
-    // --- Scale to fit 800x600 ---
     float scaleX = 800.f / texture.getSize().x;
     float scaleY = 600.f / texture.getSize().y;
 
@@ -22,7 +21,7 @@ Background::Background(const std::string& textureFile, float scrollSpeed):scroll
 
     float scaledWidth = texture.getSize().x * scaleX;
 
-    // --- Positioning the two sprites side by side ---
+  
     sprite.setPosition(position);
     sprite2.setPosition(position.x + 800.f, position.y); 
 

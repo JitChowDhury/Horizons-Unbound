@@ -19,3 +19,12 @@ void Animation::Update(float deltaTime) {
         sprite.setTextureRect(frames[currentFrame]);
     }
 }
+
+void Animation::Reset() {
+    elapsedTime = 0.f;
+    currentFrame = 0;
+
+    if (!frames.empty()) {
+        sprite.setTextureRect(frames[0]);
+    }
+}

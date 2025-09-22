@@ -63,11 +63,11 @@ void Player::Draw(sf::RenderWindow& window)
 	sf::RectangleShape rect;
 	rect.setPosition(bounds.left, bounds.top);
 	rect.setSize(sf::Vector2f(bounds.width, bounds.height));
-	rect.setFillColor(sf::Color::Transparent); // no fill
-	rect.setOutlineColor(sf::Color::Red);      // red outline
-	rect.setOutlineThickness(2.f);             // thickness of the line
+	rect.setFillColor(sf::Color::Transparent);
+	rect.setOutlineColor(sf::Color::Red);     
+	rect.setOutlineThickness(2.f);        
 
-	window.draw(rect);
+	//window.draw(rect);
 }
 
 sf::FloatRect Player::GetGlobalBounds() const
@@ -89,6 +89,18 @@ sf::FloatRect Player::GetCollisionBounds() const
 		global.width - 2 * shrinkX,
 		global.height - 2 * shrinkY
 	);
+}
+
+void Player::Reset()
+{
+	position = sf::Vector2f(400, 300);
+	velocity = sf::Vector2f(0.f, 0.f);
+	isGrounded = true;
+
+	sprite.setPosition(400 - sprite.getGlobalBounds().width / 2,
+		ground.spritePosition() - sprite.getGlobalBounds().height);
+
+	animation.Reset(); 
 }
 
 

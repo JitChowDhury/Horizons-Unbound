@@ -11,39 +11,43 @@
 class Game
 {
 private:
-	sf::RenderWindow window;
-	sf::Clock clock;
+    enum class GameState { Playing, GameOver };
+    GameState gameState;
 
-	sf::Music mainMusic;
-	sf::Text scoreText;
-	sf::Font font;
+    sf::RenderWindow window;
+    sf::Clock clock;
 
-	sf::SoundBuffer coinSoundBuffer;
-	sf::Sound coinSound;
+    sf::Music mainMusic;
+    sf::Text scoreText;
+    sf::Text gameOverText;
+    sf::Font font;
 
-	float deltaTime;
-	float baseScrollSpeed;
-	int score;
-	
-	std::vector<Background> backgrounds;
-	Player player;
-	Ground ground;
+    sf::SoundBuffer coinSoundBuffer;
+    sf::Sound coinSound;
 
+    float deltaTime;
+    float baseScrollSpeed;
+    int score;
 
-	std::vector<std::unique_ptr<Coin>> coins;
-	sf::Clock coinSpawnClock;
-	float coinSpawnInterval = 2.f; 
+    std::vector<Background> backgrounds;
+    Player player;
+    Ground ground;
 
-	std::vector<std::unique_ptr<Obstacle>> obstacles;
-	sf::Clock obstacleSpawnClock;
-	float obstacleSpawnInterval = 3.f;
+    std::vector<std::unique_ptr<Coin>> coins;
+    sf::Clock coinSpawnClock;
+    float coinSpawnInterval = 2.f;
 
+    std::vector<std::unique_ptr<Obstacle>> obstacles;
+    sf::Clock obstacleSpawnClock;
+    float obstacleSpawnInterval = 3.f;
 
-	void PlayCoinSound();
+    void PlayCoinSound();
+    void Restart();
+
 public:
-	Game();
-	void Update();
-	void HandleEvent();
-	void Render();
-	void Run();
+    Game();
+    void Update();
+    void HandleEvent();
+    void Render();
+    void Run();
 };

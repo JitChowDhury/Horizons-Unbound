@@ -69,3 +69,24 @@ float Ground::spritePosition()
 {
     return groundSprite1.getGlobalBounds().top;
 }
+void Ground::Reset()
+{
+   
+    if (!groundTexture.loadFromFile("assets/textures/ground.png"))
+    {
+        std::cout << "Ground Texture Not Loaded" << std::endl;
+    }
+
+    groundSprite1.setTexture(groundTexture);
+    groundSprite1.setColor(sf::Color(180, 200, 255));
+    groundSprite1.setTextureRect(sf::IntRect(0, 194, 927, 466));
+
+    sf::FloatRect bounds = groundSprite1.getLocalBounds();
+    groundSprite1.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+
+    groundSprite2 = groundSprite1;
+
+    groundSprite1.setPosition(bounds.width / 2.f, 700.f);
+    float width = groundSprite1.getGlobalBounds().width;
+    groundSprite2.setPosition(groundSprite1.getPosition().x + width, 700.f);
+}
